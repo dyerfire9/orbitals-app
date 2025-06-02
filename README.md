@@ -12,7 +12,6 @@ A beautiful and intuitive web application that allows users to input an atomic n
 </h2>
 
 
-
 ## 🚀 Features
 
 - 🔍 Lookup electron configurations by atomic number
