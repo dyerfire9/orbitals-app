@@ -1,38 +1,145 @@
-.App {
+:root {
+  --primary-pink: #ff4da6;
+  --soft-pink: #ffe6f0;
+  --hover-pink: #ff3399;
+  --text-color: #2b2b2b;
+  --white: #ffffff;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.pink-theme {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--soft-pink);
+  color: var(--text-color);
+  padding: 2rem;
+  max-width: 960px;
+  margin: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(255, 77, 166, 0.2);
+}
+
+.title {
   text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary-pink);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.input-section {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  margin-bottom: 1.5rem;
+}
+
+.input-section input {
+  padding: 12px;
+  font-size: 1rem;
+  width: 240px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  transition: all 0.3s;
+}
+
+.input-section input:focus {
+  border-color: var(--primary-pink);
+  outline: none;
+  box-shadow: 0 0 5px var(--primary-pink);
+}
+
+.input-section button {
+  padding: 12px 18px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: var(--primary-pink);
   color: white;
+  border: none;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.App-link {
-  color: #61dafb;
+.input-section button:hover {
+  background-color: var(--hover-pink);
+  transform: translateY(-1px);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.help-box, .element-box, .config-box {
+  background-color: var(--white);
+  padding: 1.2rem;
+  border: 2px solid var(--primary-pink);
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.help-box h2,
+.element-box h2 {
+  margin-top: 0;
+  color: var(--primary-pink);
+}
+
+.config-box pre {
+  white-space: pre-wrap;
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+.diagram-section {
+  overflow-x: auto;
+  padding: 0.5rem;
+}
+
+.orbital-row {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0;
+}
+
+.orbital-label {
+  width: 60px;
+  font-weight: bold;
+  text-align: right;
+  margin-right: 10px;
+  color: var(--primary-pink);
+}
+
+.orbital-line {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.orbital {
+  width: 30px;
+  height: 30px;
+  border-bottom: 2px solid var(--text-color);
+  text-align: center;
+  font-size: 1.2rem;
+  line-height: 30px;
+  transition: all 0.3s ease;
+}
+
+.hover-glow:hover {
+  background-color: #ffd1eb;
+  border-radius: 6px;
+  transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .input-section {
+    flex-direction: column;
+    align-items: center;
   }
-  to {
-    transform: rotate(360deg);
+
+  .orbital-line {
+    justify-content: center;
   }
 }
