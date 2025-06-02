@@ -2,6 +2,7 @@ import './App.css';
 
 import React, { useState } from 'react';
 import './App.css';
+import{periodicTable} from './periodic-data'
 
 const subshells = [
   ["1s", 2], ["2s", 2], ["2p", 6], ["3s", 2], ["3p", 6],
@@ -10,17 +11,11 @@ const subshells = [
   ["7s", 2], ["5f", 14], ["6d", 10], ["7p", 6]
 ];
 
-const periodicTable = [
-  '', 'Hydrogen', 'Helium', 'Lithium', 'Beryllium', 'Boron', 'Carbon', 'Nitrogen', 'Oxygen', 'Fluorine', 'Neon',
-  'Sodium', 'Magnesium', 'Aluminum', 'Silicon', 'Phosphorus', 'Sulfur', 'Chlorine', 'Argon', 'Potassium', 'Calcium'
-  // You can continue this list to 118 elements for a full app.
-];
-
 export default function App() {
-  const [atomicNumber, setAtomicNumber] = useState('');
+const [atomicNumber, setAtomicNumber] = useState('');
   const [config, setConfig] = useState('');
   const [diagram, setDiagram] = useState([]);
-  const [element, setElement] = useState('');
+  const [elementInfo, setElementInfo] = useState(null);
   const [showHelp, setShowHelp] = useState(false);
 
   const generateDiagram = () => {
@@ -28,7 +23,7 @@ export default function App() {
     if (isNaN(z) || z < 1 || z > 118) {
       setConfig('Please enter a valid atomic number (1–118)');
       setDiagram([]);
-      setElement('');
+      setElementInfo(null);
       return;
     }
 
@@ -53,13 +48,13 @@ export default function App() {
       diagramRows.push({ sub, arrows });
     }
 
-    setElement(periodicTable[z] || `Element ${z}`);
     setConfig(`Electron Configuration for Z=${z}:\n` + configString);
     setDiagram(diagramRows.reverse());
+    setElementInfo(periodicTable[z] || { symbol: "?", name: "Unknown Element" });
   };
 
   return (
-    <div className="container pink-theme">
+    <div className="container">
       <h1 className="title">Interactive Orbital Diagram Kit</h1>
 
       <div className="input-section">
@@ -86,11 +81,10 @@ export default function App() {
         </div>
       )}
 
-      {element && (
-        <div className="element-box">
-          <h2>Element Information</h2>
-          <p><strong>Name:</strong> {element}</p>
-          <p><strong>Atomic Number:</strong> {atomicNumber}</p>
+      {elementInfo && (
+        <div className="element-info">
+          <h2>{elementInfo.name} ({elementInfo.symbol})</h2>
+          <p>Atomic Number: {atomicNumber}</p>
         </div>
       )}
 
@@ -105,7 +99,7 @@ export default function App() {
             <div className="orbital-label">{row.sub}</div>
             <div className="orbital-line">
               {row.arrows.map((a, i) => (
-                <div key={i} className="orbital hover-glow">{a || '\u00A0'}</div>
+                <div key={i} className="orbital">{a || '\u00A0'}</div>
               ))}
             </div>
           </div>
