@@ -53,6 +53,7 @@ export default function App() {
   };
 
   const categories = [
+    { name: 'Metal', var: '--metal' },
     { name: 'Nonmetal', var: '--nonmetal' },
     { name: 'Noble Gas', var: '--noblegas' },
     { name: 'Alkali Metal', var: '--alkalimetal' },
@@ -95,10 +96,10 @@ export default function App() {
           )}
 
           {elementInfo && (
-            <div
-              className="element-info"
-              style={{ borderLeft: `6px solid var(${elementInfo.category ? '--' + elementInfo.category.toLowerCase().replace(/\s+/g, '') : '--default'})` }}
-            >
+              <div
+                className={`element-info ${elementInfo.category ? elementInfo.category.toLowerCase().replace(/\s+/g, '-') : 'default'}`}
+              >
+
               <h2>{elementInfo.name} ({elementInfo.symbol})</h2>
               <p><strong>Atomic Number:</strong> {atomicNumber}</p>
               <p><strong>Group:</strong> {elementInfo.group}</p>

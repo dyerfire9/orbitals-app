@@ -12,10 +12,23 @@
   --transitionmetal: #d3d3d3;
   --lanthanide: #caffbf;
   --actinide: #ffd6d6;
-  --metals: #d0f4de;
+  --metal: #d0f4de;
   --unknown: #e0e0e0;
   --default: #f0f0f0;
 }
+
+/* Category-specific background classes */
+.element-info.nonmetal { background-color: var(--nonmetal); }
+.element-info.noble-gas { background-color: var(--noblegas); }
+.element-info.alkali-metal { background-color: var(--alkalimetal); }
+.element-info.alkaline-earth-metal { background-color: var(--alkalineearthmetal); }
+.element-info.metalloid { background-color: var(--metalloid); }
+.element-info.halogen { background-color: var(--halogen); }
+.element-info.transition-metal { background-color: var(--transitionmetal); }
+.element-info.lanthanide { background-color: var(--lanthanide); }
+.element-info.actinide { background-color: var(--actinide); }
+.element-info.metal { background-color: var(--metal); }
+.element-info.default { background-color: var(--default); }
 
 body {
   background-color: var(--accent-color);
