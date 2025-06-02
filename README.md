@@ -1,11 +1,17 @@
-# Element Orbital Diagram Kit
+<h1 align="center" style="font-size:28px; line-height:1"><b>Element Orbital Diagram Kit</b></h1>
 
 A beautiful and intuitive web application that allows users to input an atomic number (1–118) and instantly view:
 - The element's detailed information (symbol, name, group, period, category)
 - The electron configuration
 - A visual orbital diagram with arrows following quantum rules
 - A Help section if any help is needed to understand the configuration
----
+
+## Website
+<h2 align="center" style="font-size:28px; line-height:1">
+   https://dyerfire9.github.io/orbitals-app/
+</h2>
+
+
 
 ## 🚀 Features
 
