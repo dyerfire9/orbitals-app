@@ -1,7 +1,20 @@
 :root {
-  --primary-color: #ff69b4;
-  --accent-color: #ffe6f0;
-  --text-color: #4a0033;
+  --primary-color: #0077b6;          
+  --accent-color: #caf0f8;            
+  --text-color: #03045e;             
+
+  --nonmetal: #ade8f4;
+  --noblegas: #90e0ef;
+  --alkalimetal: #ffb5a7;
+  --alkalineearthmetal: #ffd6a5;
+  --metalloid: #ffe066;
+  --halogen: #bde0fe;
+  --transitionmetal: #d3d3d3;
+  --lanthanide: #caffbf;
+  --actinide: #ffd6d6;
+  --metals: #d0f4de;
+  --unknown: #e0e0e0;
+  --default: #f0f0f0;
 }
 
 body {
@@ -9,16 +22,18 @@ body {
   margin: 0;
   padding: 0;
 }
+
 .container {
   font-family: 'Segoe UI', sans-serif;
   background-color: white;
-  max-width: 800px;
   margin: 3rem auto;
   padding: 2rem;
-  box-shadow: 0 0 25px rgba(255, 105, 180, 0.2);
+  box-shadow: 0 0 25px rgba(0, 119, 182, 0.15);
   border-radius: 12px;
   color: var(--text-color);
   box-sizing: border-box;
+  width: 90vw;
+  max-width: 1200px;
 }
 
 .title {
@@ -62,21 +77,60 @@ body {
 }
 
 .input-section button:hover {
-  background-color: #e754a6;
+  background-color: #023e8a;
   transform: scale(1.05);
 }
 
 .help-button {
-  background-color: #d9a8c1;
-  color: #4a0033;
+  background-color: #90e0ef;
+  color: #03045e;
 }
 
 .help-button:hover {
-  background-color: #c07aa0;
+  background-color: #48cae4;
+}
+
+.main-content {
+  display: flex;
+  gap: 2.5rem;
+  position: relative;
+  justify-content: space-between;
+}
+
+.left-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.legend-tab {
+  position: fixed;
+  right: 40px;
+  top: 180px;
+  background-color: #e0f7fa;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 2px dashed var(--primary-color);
+  width: 200px;
+  z-index: 10;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  animation: fadeIn 0.4s ease-in;
+}
+
+.legend-tab h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: #0077b6;
+}
+
+.legend-tab ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
 }
 
 .help-box {
-  background-color: #fff0f5;
+  background-color: #e0f7fa;
   padding: 1rem;
   border: 2px dashed var(--primary-color);
   border-radius: 8px;
@@ -86,7 +140,7 @@ body {
 
 .config-box {
   margin-bottom: 1.5rem;
-  background-color: #fff7fa;
+  background-color: #f1f9ff;
   border-left: 4px solid var(--primary-color);
   padding: 1rem;
   font-family: monospace;
@@ -129,23 +183,53 @@ body {
   text-align: center;
   font-size: 1.2rem;
   line-height: 28px;
-  background-color: #ffe6f0;
+  background-color: #caf0f8;
   border-radius: 4px;
   transition: background-color 0.3s ease;
 }
 
 .orbital:hover {
-  background-color: #ffd6e8;
+  background-color: #ade8f4;
 }
 
 .element-info {
-  background-color: #ffe4ed;
+  background-color: #d0f4ff;
   padding: 1rem;
   border-left: 4px solid var(--primary-color);
   border-radius: 8px;
   margin-bottom: 1rem;
   text-align: center;
   animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1000px) {
+  .legend-tab {
+    position: static;
+    width: 100%;
+    margin-top: 2rem;
+    border: 2px solid var(--primary-color);
+  }
+
+  .main-content {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-right: 0;
+  }
+
+  .left-content {
+    padding-right: 0;
+  }
 }
 
 @media (max-width: 600px) {
@@ -157,9 +241,4 @@ body {
   .orbital-line {
     justify-content: center;
   }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
 }

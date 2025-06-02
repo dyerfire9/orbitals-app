@@ -61,15 +61,13 @@ export default function App() {
     { name: 'Metalloid', var: '--metalloid' },
     { name: 'Halogen', var: '--halogen' },
     { name: 'Transition Metal', var: '--transitionmetal' },
-    { name: 'Post-Transition Metal', var: '--post-transitionmetal' },
     { name: 'Lanthanide', var: '--lanthanide' },
-    { name: 'Actinide', var: '--actinide' },
-    { name: 'Unknown', var: '--unknown' }
+    { name: 'Actinide', var: '--actinide' }
   ];
 
   return (
     <div className="container">
-      <h1 className="title">Interactive Orbital Diagram Kit</h1>
+      <h1 className="title">Element Orbital Diagram Kit</h1>
 
       <div className="input-section">
         <input
