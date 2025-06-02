@@ -1,7 +1,7 @@
 {
   "name": "orbitals-app",
   "version": "0.1.0",
-  "homepage": "https://dyerfire9.github.io/orbital-app",
+  "homepage": "https://dyerfire9.github.io/orbitals-app/",
   "private": true,
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
