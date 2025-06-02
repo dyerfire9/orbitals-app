@@ -12,7 +12,7 @@ const subshells = [
 ];
 
 export default function App() {
-const [atomicNumber, setAtomicNumber] = useState('');
+  const [atomicNumber, setAtomicNumber] = useState('');
   const [config, setConfig] = useState('');
   const [diagram, setDiagram] = useState([]);
   const [elementInfo, setElementInfo] = useState(null);
@@ -53,6 +53,20 @@ const [atomicNumber, setAtomicNumber] = useState('');
     setElementInfo(periodicTable[z] || { symbol: "?", name: "Unknown Element" });
   };
 
+  const categories = [
+    { name: 'Nonmetal', var: '--nonmetal' },
+    { name: 'Noble Gas', var: '--noblegas' },
+    { name: 'Alkali Metal', var: '--alkalimetal' },
+    { name: 'Alkaline Earth Metal', var: '--alkalineearthmetal' },
+    { name: 'Metalloid', var: '--metalloid' },
+    { name: 'Halogen', var: '--halogen' },
+    { name: 'Transition Metal', var: '--transitionmetal' },
+    { name: 'Post-Transition Metal', var: '--post-transitionmetal' },
+    { name: 'Lanthanide', var: '--lanthanide' },
+    { name: 'Actinide', var: '--actinide' },
+    { name: 'Unknown', var: '--unknown' }
+  ];
+
   return (
     <div className="container">
       <h1 className="title">Interactive Orbital Diagram Kit</h1>
@@ -70,42 +84,63 @@ const [atomicNumber, setAtomicNumber] = useState('');
         </button>
       </div>
 
-      {showHelp && (
-        <div className="help-box">
-          <h2>Help: Orbital Diagram Rules</h2>
+      <div className="main-content">
+        <div className="left-content">
+          {showHelp && (
+            <div className="help-box">
+              <h2>Help: Orbital Diagram Rules</h2>
+              <ul>
+                <li><strong>Aufbau Principle</strong>: Electrons fill orbitals from lowest to highest energy.</li>
+                <li><strong>Pauli Exclusion Principle</strong>: Each orbital holds 2 electrons with opposite spins.</li>
+                <li><strong>Hund’s Rule</strong>: Electrons occupy empty orbitals first before pairing up.</li>
+              </ul>
+            </div>
+          )}
+
+          {elementInfo && (
+            <div
+              className="element-info"
+              style={{ borderLeft: `6px solid var(${elementInfo.category ? '--' + elementInfo.category.toLowerCase().replace(/\s+/g, '') : '--default'})` }}
+            >
+              <h2>{elementInfo.name} ({elementInfo.symbol})</h2>
+              <p><strong>Atomic Number:</strong> {atomicNumber}</p>
+              <p><strong>Group:</strong> {elementInfo.group}</p>
+              <p><strong>Period:</strong> {elementInfo.period}</p>
+              <p><strong>Category:</strong> {elementInfo.category}</p>
+            </div>
+          )}
+
+          <div className="config-box">
+            <pre>{config}</pre>
+          </div>
+
+          <div className="diagram-section">
+            {diagram.length > 0 && <strong>Orbital Diagram:</strong>}
+            {diagram.map((row, idx) => (
+              <div key={idx} className="orbital-row">
+                <div className="orbital-label">{row.sub}</div>
+                <div className="orbital-line">
+                  {row.arrows.map((a, i) => (
+                    <div key={i} className="orbital">{a || '\u00A0'}</div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="legend-tab">
+          <h3>Category Legend</h3>
           <ul>
-            <li><strong>Aufbau Principle</strong>: Electrons fill orbitals from lowest to highest energy.</li>
-            <li><strong>Pauli Exclusion Principle</strong>: Each orbital holds 2 electrons with opposite spins.</li>
-            <li><strong>Hund’s Rule</strong>: Electrons occupy empty orbitals first before pairing up.</li>
+            {categories.map((cat, i) => (
+              <li key={i} style={{ display: 'flex', alignItems: 'center', marginBottom: '6px' }}>
+                <span style={{ backgroundColor: `var(${cat.var})`, width: '16px', height: '16px', marginRight: '8px', display: 'inline-block', borderRadius: '3px' }}></span>
+                {cat.name}
+              </li>
+            ))}
           </ul>
         </div>
-      )}
-
-      {elementInfo && (
-        <div className="element-info">
-          <h2>{elementInfo.name} ({elementInfo.symbol})</h2>
-          <p>Atomic Number: {atomicNumber}</p>
-        </div>
-      )}
-
-      <div className="config-box">
-        <pre>{config}</pre>
-      </div>
-
-      <div className="diagram-section">
-        {diagram.length > 0 && <strong>Orbital Diagram:</strong>}
-        {diagram.map((row, idx) => (
-          <div key={idx} className="orbital-row">
-            <div className="orbital-label">{row.sub}</div>
-            <div className="orbital-line">
-              {row.arrows.map((a, i) => (
-                <div key={i} className="orbital">{a || '\u00A0'}</div>
-              ))}
-            </div>
-          </div>
-        ))}
       </div>
     </div>
   );
 }
-
