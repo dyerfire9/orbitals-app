@@ -10,6 +10,7 @@ export default function InteractiveMode({ goBack }) {
   const [feedback, setFeedback] = useState('');
   const [correctConfig, setCorrectConfig] = useState('');
   const [showOrbitalDiagram, setShowOrbitalDiagram] = useState(false);
+  const [showExceptions, setShowExceptions] = useState(false);
 
   const subshells = [
     ["1s", 2], ["2s", 2], ["2p", 6], ["3s", 2], ["3p", 6],
@@ -55,26 +56,26 @@ export default function InteractiveMode({ goBack }) {
     <div className="container">
       <h1 className="title">Interactive Electron Configuration Trainer</h1>
 
-    {step === 0 ? (
-    <div className="trainer-menu">
-        <button onClick={handleStart}>Start</button>
-        <button onClick={goBack}>Back to Generator</button>
-    </div>
+      {step === 0 ? (
+        <div className="trainer-menu">
+          <button onClick={handleStart}>Start</button>
+          <button onClick={goBack}>Back to Generator</button>
+        </div>
       ) : (
         <div>
-          {/* Exemplar */}
+          {/* Syntax Guide */}
           <div className="help-box">
             <h3>Electron Configuration Syntax Guide</h3>
             <p>Use this format: <code>1s^2 2s^2 2p^6</code></p>
             <p>Examples:</p>
             <ul>
-              <li><strong>Hydrogen (Atomic Number: 1):</strong> <code>1s^1</code></li>
-              <li><strong>Helium (Atomic Number: 2):</strong> <code>1s^2</code></li>
-              <li><strong>Carbon (Atomic Number: 6):</strong> <code>1s^2 2s^2 2p^2</code></li>
+              <li><strong>Hydrogen (Z=1):</strong> <code>1s^1</code></li>
+              <li><strong>Helium (Z=2):</strong> <code>1s^2</code></li>
+              <li><strong>Carbon (Z=6):</strong> <code>1s^2 2s^2 2p^2</code></li>
             </ul>
           </div>
 
-          {/* Input Section */}
+          {/* Inputs */}
           <div className="input-section">
             <input
               type="number"
@@ -90,35 +91,56 @@ export default function InteractiveMode({ goBack }) {
             />
             <button onClick={handleCheck}>Check</button>
             <button onClick={goBack} className="help-button">Back</button>
-            <button onClick={() => setShowOrbitalDiagram(!showOrbitalDiagram)} style={{ marginLeft: '10px' }}>
+            <button onClick={() => setShowOrbitalDiagram(!showOrbitalDiagram)}>
               {showOrbitalDiagram ? 'Hide Diagram' : 'Show Aufbau Order Image'}
             </button>
           </div>
 
-          {/* Optional Image Display */}
+          {/* Diagram Image */}
           {showOrbitalDiagram && (
             <div className="help-box" style={{ textAlign: 'center' }}>
               <h3>Aufbau Principle Diagram</h3>
-              <p>This diagram shows the order in which orbitals are filled (from top to bottom following the arrows).</p>
+              <p>This diagram shows the order in which orbitals are filled (follow the arrows).</p>
               <img
                 src={orbitalImage}
                 alt="Orbital Filling Order"
-                style={{ maxWidth: '100%', borderRadius: '8px', marginTop: '10px' }}
               />
             </div>
           )}
 
-          {/* Rules Reminder */}
+          {/* Rules + Exceptions */}
           <div className="help-box">
             <h3>Hint: Key Principles</h3>
             <ul>
-              <li><strong>Aufbau Principle:</strong> Fill lowest energy orbitals first.</li>
-              <li><strong>Pauli Exclusion Principle:</strong> Max 2 electrons per orbital with opposite spins.</li>
-              <li><strong>Hund’s Rule:</strong> Fill all orbitals singly before pairing.</li>
+              <li><strong>Aufbau Principle:</strong> Fill orbitals from lowest energy up.</li>
+              <li><strong>Pauli Exclusion Principle:</strong> Max 2 electrons per orbital (opposite spins).</li>
+              <li><strong>Hund’s Rule:</strong> Fill orbitals singly before pairing.</li>
             </ul>
+            <button
+              className="help-button"
+              style={{ marginTop: '10px' }}
+              onClick={() => setShowExceptions(!showExceptions)}
+            >
+              {showExceptions ? 'Hide Exceptions' : 'Show Exceptions'}
+            </button>
+
+            {showExceptions && (
+              <div style={{ marginTop: '10px' }}>
+                <h4>Configuration Exceptions</h4>
+                <ul>
+                  <li><strong>Chromium (Cr, Z=24):</strong> <code>[Ar] 4s^1 3d^5</code>  
+                    <br />✓ More stable due to half-filled d-orbital.</li>
+                  <li><strong>Copper (Cu, Z=29):</strong> <code>[Ar] 4s^1 3d^10</code>  
+                    <br />✓ Full d-orbital preferred.</li>
+                  <li><strong>Silver (Ag, Z=47):</strong> <code>[Kr] 5s^1 4d^10</code></li>
+                  <li><strong>Gold (Au, Z=79):</strong> <code>[Xe] 6s^1 4f^14 5d^10</code></li>
+                </ul>
+                <p><em>These exceptions occur due to enhanced stability of half-filled or fully-filled d and f orbitals.</em></p>
+              </div>
+            )}
           </div>
 
-          {/* Feedback Box */}
+          {/* Feedback */}
           <div className="config-box">
             <pre>{feedback}</pre>
             {feedback.includes('❌') && (

@@ -211,7 +211,7 @@ body {
 .element-info.default { background-color: var(--default); }
 
 img {
-  max-width: 100%;
+  max-width: 45%;
   height: auto;
   display: block;
   margin: 1rem auto;
@@ -238,6 +238,23 @@ img {
 .trainer-menu button:hover {
   background-color: #023e8a;
   transform: scale(1.05);
+}
+
+.help-box button {
+  font-size: 1rem;
+  padding: 8px 14px;
+  background-color: #90e0ef;
+  color: #03045e;
+  border: none;
+  border-radius: 6px;
+  margin-top: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.help-box button:hover {
+  background-color: #48cae4;
+  transform: scale(1.03);
 }
 
 
