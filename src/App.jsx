@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useState } from 'react';
-import './App.css';
-import{periodicTable} from './periodic-data'
+import { periodicTable } from './periodic-data';
+import InteractiveMode from './InteractiveMode';
 
 const subshells = [
   ["1s", 2], ["2s", 2], ["2p", 6], ["3s", 2], ["3p", 6],
@@ -11,6 +11,7 @@ const subshells = [
 ];
 
 export default function App() {
+  const [mode, setMode] = useState('menu'); // menu | generator | trainer
   const [atomicNumber, setAtomicNumber] = useState('');
   const [config, setConfig] = useState('');
   const [diagram, setDiagram] = useState([]);
@@ -65,6 +66,22 @@ export default function App() {
     { name: 'Actinide', var: '--actinide' }
   ];
 
+  if (mode === 'trainer') {
+    return <InteractiveMode goBack={() => setMode('menu')} />;
+  }
+
+  if (mode === 'menu') {
+    return (
+      <div className="container">
+        <h1 className="title">Element Orbital Diagram Kit</h1>
+        <div className="menu-buttons">
+          <button onClick={() => setMode('generator')}>Open Electron Config Generator</button>
+          <button onClick={() => setMode('trainer')}>Start Interactive Trainer</button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container">
       <h1 className="title">Element Orbital Diagram Kit</h1>
@@ -80,6 +97,7 @@ export default function App() {
         <button className="help-button" onClick={() => setShowHelp(!showHelp)}>
           {showHelp ? 'Hide Help' : 'Show Help'}
         </button>
+        <button onClick={() => setMode('menu')}>Main Menu</button>
       </div>
 
       <div className="main-content">
@@ -96,10 +114,9 @@ export default function App() {
           )}
 
           {elementInfo && (
-              <div
-                className={`element-info ${elementInfo.category ? elementInfo.category.toLowerCase().replace(/\s+/g, '-') : 'default'}`}
-              >
-
+            <div
+              className={`element-info ${elementInfo.category ? elementInfo.category.toLowerCase().replace(/\s+/g, '-') : 'default'}`}
+            >
               <h2>{elementInfo.name} ({elementInfo.symbol})</h2>
               <p><strong>Atomic Number:</strong> {atomicNumber}</p>
               <p><strong>Group:</strong> {elementInfo.group}</p>
