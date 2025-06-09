@@ -127,6 +127,28 @@ export default function App() {
 
           <div className="config-box">
             <pre>{config}</pre>
+            {["24", "29", "47", "79"].includes(atomicNumber) && (
+              <div style={{ marginTop: "1rem", backgroundColor: "#fff3cd", padding: "0.75rem", borderRadius: "6px", borderLeft: "4px solid #ffc107" }}>
+                <strong>⚠ Note:</strong> This element is an <em>exception</em> to the Aufbau Principle.
+                <ul style={{ marginTop: "0.5rem" }}>
+                  {atomicNumber === "24" && (
+                    <li><strong>Chromium (Z=24):</strong> Expected: <code>[Ar] 4s² 3d⁴</code>, Actual: <code>[Ar] 4s¹ 3d⁵</code></li>
+                  )}
+                  {atomicNumber === "29" && (
+                    <li><strong>Copper (Z=29):</strong> Expected: <code>[Ar] 4s² 3d⁹</code>, Actual: <code>[Ar] 4s¹ 3d¹⁰</code></li>
+                  )}
+                  {atomicNumber === "47" && (
+                    <li><strong>Silver (Z=47):</strong> Expected: <code>[Kr] 5s² 4d⁹</code>, Actual: <code>[Kr] 5s¹ 4d¹⁰</code></li>
+                  )}
+                  {atomicNumber === "79" && (
+                    <li><strong>Gold (Z=79):</strong> Expected: <code>[Xe] 6s² 4f¹⁴ 5d⁹</code>, Actual: <code>[Xe] 6s¹ 4f¹⁴ 5d¹⁰</code></li>
+                  )}
+                </ul>
+                <p style={{ marginTop: "0.5rem" }}>
+                  These occur because half-filled or fully-filled d-orbitals are more stable.
+                </p>
+              </div>
+            )}
           </div>
 
           <div className="diagram-section">
