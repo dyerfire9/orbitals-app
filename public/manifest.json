@@ -1,6 +1,6 @@
 {
-  "short_name": "Orbitals App",
-  "name": "Orbital Diagram App",
+  "short_name": "Electron Config Kit",
+  "name": "Electron Configuration Kit",
   
   "start_url": ".",
   "display": "standalone",
