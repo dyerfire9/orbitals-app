@@ -74,13 +74,19 @@ export default function App() {
     return (
       <div className="container">
         <h1 className="title">Electron Configuration Kit</h1>
+
         <div className="menu-buttons">
           <button onClick={() => setMode('generator')}>Open Electron Config Visualizer</button>
           <button onClick={() => setMode('trainer')}>Start Interactive Trainer</button>
         </div>
+
+        <div className="author-card">
+          <h3>Created by: Ramila, Serena, Evelyn, Eva, Hannah</h3>
+        </div>
       </div>
     );
   }
+
 
   return (
     <div className="container">

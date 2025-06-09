@@ -257,6 +257,29 @@ img {
   transform: scale(1.03);
 }
 
+.author-card {
+  margin: 3rem auto 0 auto;
+  padding: 1.2rem;
+  border: 2px dashed var(--primary-color);
+  background-color: #f0f8ff;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 119, 182, 0.1);
+  width: 50%;
+  max-width: 500px;
+  min-width: 280px;
+}
+
+.author-card h3 {
+  margin-top: 0;
+  color: var(--primary-color);
+}
+
+.author-card a {
+  color: var(--text-color);
+  text-decoration: underline;
+}
+
 
 /* Responsive Design */
 @media (max-width: 1000px) {
