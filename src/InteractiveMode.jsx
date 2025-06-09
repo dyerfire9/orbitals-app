@@ -54,7 +54,7 @@ export default function InteractiveMode({ goBack }) {
 
   return (
     <div className="container">
-      <h1 className="title">Interactive Electron Configuration Trainer</h1>
+      <h1 className="title">Electron Configuration Trainer</h1>
 
       {step === 0 ? (
         <div className="trainer-menu">
