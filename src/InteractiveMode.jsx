@@ -55,11 +55,11 @@ export default function InteractiveMode({ goBack }) {
     <div className="container">
       <h1 className="title">Interactive Electron Configuration Trainer</h1>
 
-      {step === 0 ? (
-        <div style={{ textAlign: 'center' }}>
-          <button onClick={handleStart}>Start</button>
-          <button onClick={goBack} style={{ marginLeft: '10px' }}>Back to Generator</button>
-        </div>
+    {step === 0 ? (
+    <div className="trainer-menu">
+        <button onClick={handleStart}>Start</button>
+        <button onClick={goBack}>Back to Generator</button>
+    </div>
       ) : (
         <div>
           {/* Exemplar */}
