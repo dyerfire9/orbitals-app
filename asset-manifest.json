@@ -1,13 +1,14 @@
 {
   "files": {
-    "main.css": "/orbitals-app/static/css/main.ac8a4706.css",
-    "main.js": "/orbitals-app/static/js/main.82c489b7.js",
+    "main.css": "/orbitals-app/static/css/main.b17e3acc.css",
+    "main.js": "/orbitals-app/static/js/main.6815b5ad.js",
+    "static/media/e-config.jpg": "/orbitals-app/static/media/e-config.54df6f4dbf474ecc84ba.jpg",
     "index.html": "/orbitals-app/index.html",
-    "main.ac8a4706.css.map": "/orbitals-app/static/css/main.ac8a4706.css.map",
-    "main.82c489b7.js.map": "/orbitals-app/static/js/main.82c489b7.js.map"
+    "main.b17e3acc.css.map": "/orbitals-app/static/css/main.b17e3acc.css.map",
+    "main.6815b5ad.js.map": "/orbitals-app/static/js/main.6815b5ad.js.map"
   },
   "entrypoints": [
-    "static/css/main.ac8a4706.css",
-    "static/js/main.82c489b7.js"
+    "static/css/main.b17e3acc.css",
+    "static/js/main.6815b5ad.js"
   ]
 }
