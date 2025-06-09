@@ -73,9 +73,9 @@ export default function App() {
   if (mode === 'menu') {
     return (
       <div className="container">
-        <h1 className="title">Element Orbital Diagram Kit</h1>
+        <h1 className="title">Electron Configuration Kit</h1>
         <div className="menu-buttons">
-          <button onClick={() => setMode('generator')}>Open Electron Config Generator</button>
+          <button onClick={() => setMode('generator')}>Open Electron Config Visualizer</button>
           <button onClick={() => setMode('trainer')}>Start Interactive Trainer</button>
         </div>
       </div>

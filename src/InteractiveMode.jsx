@@ -68,9 +68,9 @@ export default function InteractiveMode({ goBack }) {
             <p>Use this format: <code>1s^2 2s^2 2p^6</code></p>
             <p>Examples:</p>
             <ul>
-              <li><strong>Hydrogen (Z=1):</strong> <code>1s^1</code></li>
-              <li><strong>Helium (Z=2):</strong> <code>1s^2</code></li>
-              <li><strong>Carbon (Z=6):</strong> <code>1s^2 2s^2 2p^2</code></li>
+              <li><strong>Hydrogen (Atomic Number: 1):</strong> <code>1s^1</code></li>
+              <li><strong>Helium (Atomic Number: 2):</strong> <code>1s^2</code></li>
+              <li><strong>Carbon (Atomic Number: 6):</strong> <code>1s^2 2s^2 2p^2</code></li>
             </ul>
           </div>
 
