@@ -23,10 +23,54 @@ A beautiful and intuitive web application that allows users to input an atomic n
 
 ---
 
-## 🛠 How to Run
+## 🚀 How to Run the App
 
-1. **Install dependencies** (optional if using Create React App or CDN-less version):
-   ```bash
-   npm install
+### 1. Open VS Code
 
-## 
+Launch the VS Code app.
+
+### 2. Open the Terminal in VS Code
+
+Go to the top menu and click:
+
+```
+View → Terminal
+```
+
+### 3. Clone This Repository
+
+In the terminal, type the following to clone the project:
+
+```bash
+git clone https://github.com/dyerfire9/orbitals-app.git
+```
+
+Then go into the folder:
+
+```bash
+cd orbitals-app
+```
+
+### 4. Install the required packages
+
+Still in the terminal, run:
+
+```bash
+npm install
+```
+
+This installs everything the app needs to run.
+
+### 5. Start the app
+
+Run this in the terminal:
+
+```bash
+npm start
+```
+
+After a few seconds, your browser will automatically open the app. If it doesn’t, go to:
+
+```
+http://localhost:3000
+```
