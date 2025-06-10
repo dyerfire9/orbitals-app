@@ -11,7 +11,7 @@ const subshells = [
 ];
 
 export default function App() {
-  const [mode, setMode] = useState('menu'); // menu | generator | trainer
+  const [mode, setMode] = useState('menu');
   const [atomicNumber, setAtomicNumber] = useState('');
   const [config, setConfig] = useState('');
   const [diagram, setDiagram] = useState([]);
@@ -53,6 +53,13 @@ export default function App() {
     setElementInfo(periodicTable[z] || { symbol: "?", name: "Unknown Element" });
   };
 
+  const exceptions = {
+    24: "[Ar] 4s¹ 3d⁵",
+    29: "[Ar] 4s¹ 3d¹⁰",
+    47: "[Kr] 5s¹ 4d¹⁰",
+    79: "[Xe] 6s¹ 4f¹⁴ 5d¹⁰"
+  };
+
   const categories = [
     { name: 'Metal', var: '--metal' },
     { name: 'Nonmetal', var: '--nonmetal' },
@@ -73,24 +80,22 @@ export default function App() {
   if (mode === 'menu') {
     return (
       <div className="container">
-        <h1 className="title">Electron Configuration Kit</h1>
-
+        <h1 className="title">Orbital Diagram Explorer</h1>
         <div className="menu-buttons">
-          <button onClick={() => setMode('generator')}>Open Electron Config Visualizer</button>
-          <button onClick={() => setMode('trainer')}>Start Interactive Trainer</button>
+          <button onClick={() => setMode('generator')}>🔬 Electron Config Visualizer</button>
+          <button onClick={() => setMode('trainer')}>🧠 Orbital Builder Game</button>
         </div>
-
         <div className="author-card">
-          <h3>Created by: Ramila, Serena, Evelyn, Eva, Hannah</h3>
+          <h3>Created by Abdul Rahman</h3>
+          <p>A dynamic learning tool built with React</p>
         </div>
       </div>
     );
   }
 
-
   return (
     <div className="container">
-      <h1 className="title">Element Orbital Diagram Kit</h1>
+      <h1 className="title">Electron Configuration Visualizer</h1>
 
       <div className="input-section">
         <input
@@ -112,17 +117,15 @@ export default function App() {
             <div className="help-box">
               <h2>Help: Orbital Diagram Rules</h2>
               <ul>
-                <li><strong>Aufbau Principle</strong>: Electrons fill orbitals from lowest to highest energy.</li>
-                <li><strong>Pauli Exclusion Principle</strong>: Each orbital holds 2 electrons with opposite spins.</li>
-                <li><strong>Hund’s Rule</strong>: Electrons occupy empty orbitals first before pairing up.</li>
+                <li><strong>Aufbau Principle:</strong> Fill from lowest energy upward.</li>
+                <li><strong>Pauli Exclusion Principle:</strong> Max 2 electrons per orbital with opposite spins.</li>
+                <li><strong>Hund’s Rule:</strong> Spread out electrons before pairing.</li>
               </ul>
             </div>
           )}
 
           {elementInfo && (
-            <div
-              className={`element-info ${elementInfo.category ? elementInfo.category.toLowerCase().replace(/\s+/g, '-') : 'default'}`}
-            >
+            <div className={`element-info ${elementInfo.category ? elementInfo.category.toLowerCase().replace(/\s+/g, '-') : 'default'}`}>
               <h2>{elementInfo.name} ({elementInfo.symbol})</h2>
               <p><strong>Atomic Number:</strong> {atomicNumber}</p>
               <p><strong>Group:</strong> {elementInfo.group}</p>
@@ -133,26 +136,11 @@ export default function App() {
 
           <div className="config-box">
             <pre>{config}</pre>
-            {["24", "29", "47", "79"].includes(atomicNumber) && (
-              <div style={{ marginTop: "1rem", backgroundColor: "#fff3cd", padding: "0.75rem", borderRadius: "6px", borderLeft: "4px solid #ffc107" }}>
-                <strong>⚠ Note:</strong> This element is an <em>exception</em> to the Aufbau Principle.
-                <ul style={{ marginTop: "0.5rem" }}>
-                  {atomicNumber === "24" && (
-                    <li><strong>Chromium (Z=24):</strong> Expected: <code>[Ar] 4s² 3d⁴</code>, Actual: <code>[Ar] 4s¹ 3d⁵</code></li>
-                  )}
-                  {atomicNumber === "29" && (
-                    <li><strong>Copper (Z=29):</strong> Expected: <code>[Ar] 4s² 3d⁹</code>, Actual: <code>[Ar] 4s¹ 3d¹⁰</code></li>
-                  )}
-                  {atomicNumber === "47" && (
-                    <li><strong>Silver (Z=47):</strong> Expected: <code>[Kr] 5s² 4d⁹</code>, Actual: <code>[Kr] 5s¹ 4d¹⁰</code></li>
-                  )}
-                  {atomicNumber === "79" && (
-                    <li><strong>Gold (Z=79):</strong> Expected: <code>[Xe] 6s² 4f¹⁴ 5d⁹</code>, Actual: <code>[Xe] 6s¹ 4f¹⁴ 5d¹⁰</code></li>
-                  )}
-                </ul>
-                <p style={{ marginTop: "0.5rem" }}>
-                  These occur because half-filled or fully-filled d-orbitals are more stable.
-                </p>
+            {exceptions[atomicNumber] && (
+              <div className="help-box">
+                <strong>⚠ Exception:</strong> This element is known to violate the Aufbau principle.
+                <br />
+                Suggested configuration: <code>{exceptions[atomicNumber]}</code>
               </div>
             )}
           </div>
@@ -176,8 +164,8 @@ export default function App() {
           <h3>Category Legend</h3>
           <ul>
             {categories.map((cat, i) => (
-              <li key={i} style={{ display: 'flex', alignItems: 'center', marginBottom: '6px' }}>
-                <span style={{ backgroundColor: `var(${cat.var})`, width: '16px', height: '16px', marginRight: '8px', display: 'inline-block', borderRadius: '3px' }}></span>
+              <li key={i}>
+                <span style={{ backgroundColor: `var(${cat.var})` }}></span>
                 {cat.name}
               </li>
             ))}

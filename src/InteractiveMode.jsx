@@ -1,157 +1,201 @@
-import React, { useState } from 'react';
-import { periodicTable } from './periodic-data';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import orbitalImage from './images/e-config.jpg';
 
-export default function InteractiveMode({ goBack }) {
-  const [step, setStep] = useState(0);
-  const [inputAtomicNumber, setInputAtomicNumber] = useState('');
-  const [userInput, setUserInput] = useState('');
-  const [feedback, setFeedback] = useState('');
-  const [correctConfig, setCorrectConfig] = useState('');
-  const [showOrbitalDiagram, setShowOrbitalDiagram] = useState(false);
-  const [showExceptions, setShowExceptions] = useState(false);
+const subshells = [
+  "1s", "2s", "2p", "3s", "3p",
+  "4s", "3d", "4p", "5s", "4d"
+];
 
-  const subshells = [
-    ["1s", 2], ["2s", 2], ["2p", 6], ["3s", 2], ["3p", 6],
-    ["4s", 2], ["3d", 10], ["4p", 6], ["5s", 2], ["4d", 10],
-    ["5p", 6], ["6s", 2], ["4f", 14], ["5d", 10], ["6p", 6],
-    ["7s", 2], ["5f", 14], ["6d", 10], ["7p", 6]
-  ];
+const maxElectrons = {
+  s: 2,
+  p: 6,
+  d: 10
+};
 
-  const calculateConfig = (z) => {
-    let electrons = z;
-    let configString = '';
-    for (let [sub, max] of subshells) {
-      if (electrons <= 0) break;
-      let filled = Math.min(electrons, max);
-      configString += `${sub}^${filled} `;
-      electrons -= filled;
+function getSubshellType(sub) {
+  return sub.match(/[spd]/)[0];
+}
+
+function generateCorrectDiagram(z) {
+  let electrons = z;
+  const output = [];
+
+  for (let i = 0; i < subshells.length && electrons > 0; i++) {
+    const sub = subshells[i];
+    const type = getSubshellType(sub);
+    const max = maxElectrons[type];
+    const orbitals = max / 2;
+
+    const row = Array(orbitals).fill("");
+    let placed = 0;
+
+    while (electrons > 0 && placed < max) {
+      const index = placed < orbitals ? placed : placed % orbitals;
+      row[index] += placed < orbitals ? "↑" : "↓";
+      placed++;
+      electrons--;
     }
-    return configString.trim();
+
+    output.push({ sub, arrows: row });
+  }
+
+  return output;
+}
+
+export default function InteractiveMode({ goBack }) {
+  const [atomicNumber, setAtomicNumber] = useState(1);
+  const [userDiagram, setUserDiagram] = useState([]);
+  const [feedback, setFeedback] = useState('');
+  const [showSolution, setShowSolution] = useState(false);
+  const [solution, setSolution] = useState([]);
+  const [showImage, setShowImage] = useState(false);
+  const [showExceptions, setShowExceptions] = useState(false);
+  const [showRules, setShowRules] = useState(false);
+
+  useEffect(() => {
+    const rand = Math.floor(Math.random() * 30) + 1;
+    setAtomicNumber(rand);
+    const correct = generateCorrectDiagram(rand);
+    setSolution(correct);
+    setUserDiagram([{ sub: correct[0].sub, arrows: Array(correct[0].arrows.length).fill("") }]);
+  }, []);
+    
+  const rerollAtomicNumber = () => {
+    const rand = Math.floor(Math.random() * 30) + 1;
+    setAtomicNumber(rand);
+    const correct = generateCorrectDiagram(rand);
+    setSolution(correct);
+    setShowSolution(false);
+    setFeedback('');
+    setUserDiagram([{ sub: correct[0].sub, arrows: Array(correct[0].arrows.length).fill("") }]);
+    };
+
+  const toggleArrow = (orbitalIdx, boxIdx) => {
+    setUserDiagram(prev => {
+      const newDiagram = JSON.parse(JSON.stringify(prev));
+      const state = newDiagram[orbitalIdx].arrows[boxIdx];
+      if (state === "") newDiagram[orbitalIdx].arrows[boxIdx] = "↑";
+      else if (state === "↑") newDiagram[orbitalIdx].arrows[boxIdx] = "↑↓";
+      else newDiagram[orbitalIdx].arrows[boxIdx] = "";
+      return newDiagram;
+    });
   };
 
-  const handleStart = () => setStep(1);
-
-  const handleCheck = () => {
-    const z = parseInt(inputAtomicNumber);
-    if (isNaN(z) || z < 1 || z > 118) {
-      setFeedback('Please enter a valid atomic number (1–118)');
-      return;
+  const addOrbital = () => {
+    if (userDiagram.length < solution.length) {
+      const next = solution[userDiagram.length];
+      setUserDiagram(prev => [...prev, { sub: next.sub, arrows: Array(next.arrows.length).fill("") }]);
     }
+  };
 
-    const correct = calculateConfig(z);
-    setCorrectConfig(correct);
-
-    if (userInput.trim().replace(/\s+/g, ' ') === correct) {
-      setFeedback('✅ Correct!');
-    } else {
-      setFeedback(
-        `❌ Incorrect. Review Aufbau, Pauli Exclusion, and Hund’s Rule.\nTry again or see the correct answer.`
-      );
+  const removeOrbital = () => {
+    if (userDiagram.length > 1) {
+      setUserDiagram(prev => prev.slice(0, -1));
     }
+  };
+
+  const checkDiagram = () => {
+    const correct = JSON.stringify(solution.map(row => row.arrows));
+    const user = JSON.stringify(userDiagram.map(row => row.arrows));
+    setFeedback(user === correct ? "✅ Correct!" : "❌ Incorrect. Try again or reveal the solution.");
   };
 
   return (
     <div className="container">
-      <h1 className="title">Electron Configuration Trainer</h1>
+      <h1 className="title">Orbital Builder Game</h1>
 
-      {step === 0 ? (
-        <div className="trainer-menu">
-          <button onClick={handleStart}>Start</button>
-          <button onClick={goBack}>Back to Generator</button>
+      <div className="help-box">
+        <div className="atomic-header">
+            <p><strong>Atomic Number:</strong> {atomicNumber}</p>
+            <button className="help-button reroll-btn" onClick={rerollAtomicNumber}>🔁 Re-roll</button>
         </div>
-      ) : (
-        <div>
-          {/* Syntax Guide */}
-          <div className="help-box">
-            <h3>Electron Configuration Syntax Guide</h3>
-            <p>Use this format: <code>1s^2 2s^2 2p^6</code></p>
-            <p>Examples:</p>
-            <ul>
-              <li><strong>Hydrogen (Atomic Number: 1):</strong> <code>1s^1</code></li>
-              <li><strong>Helium (Atomic Number: 2):</strong> <code>1s^2</code></li>
-              <li><strong>Carbon (Atomic Number: 6):</strong> <code>1s^2 2s^2 2p^2</code></li>
-            </ul>
-          </div>
+        <p>Tap each orbital to add/remove electrons. Use Add/Remove to adjust orbitals.</p>
 
-          {/* Inputs */}
-          <div className="input-section">
-            <input
-              type="number"
-              placeholder="Enter atomic number"
-              value={inputAtomicNumber}
-              onChange={(e) => setInputAtomicNumber(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Your electron configuration"
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-            />
-            <button onClick={handleCheck}>Check</button>
-            <button onClick={goBack} className="help-button">Back</button>
-            <button onClick={() => setShowOrbitalDiagram(!showOrbitalDiagram)}>
-              {showOrbitalDiagram ? 'Hide Diagram' : 'Show Aufbau Order Image'}
-            </button>
-          </div>
+        <div className="input-section">
+          <button className="help-button" onClick={() => setShowImage(!showImage)}>
+            {showImage ? "Hide Aufbau Diagram" : "Show Aufbau Diagram"}
+          </button>
+          <button className="help-button" onClick={() => setShowExceptions(!showExceptions)}>
+            {showExceptions ? "Hide Exceptions" : "Show Exceptions"}
+          </button>
+          <button className="help-button" onClick={() => setShowRules(!showRules)}>
+            {showRules ? "Hide Rules" : "Key Principles"}
+          </button>
+        </div>
+      </div>
 
-          {/* Diagram Image */}
-          {showOrbitalDiagram && (
-            <div className="help-box" style={{ textAlign: 'center' }}>
-              <h3>Aufbau Principle Diagram</h3>
-              <p>This diagram shows the order in which orbitals are filled (follow the arrows).</p>
-              <img
-                src={orbitalImage}
-                alt="Orbital Filling Order"
-              />
-            </div>
-          )}
-
-          {/* Rules + Exceptions */}
-          <div className="help-box">
-            <h3>Hint: Key Principles</h3>
-            <ul>
-              <li><strong>Aufbau Principle:</strong> Fill orbitals from lowest energy up.</li>
-              <li><strong>Pauli Exclusion Principle:</strong> Max 2 electrons per orbital (opposite spins).</li>
-              <li><strong>Hund’s Rule:</strong> Fill orbitals singly before pairing.</li>
-            </ul>
-            <button
-              className="help-button"
-              style={{ marginTop: '10px' }}
-              onClick={() => setShowExceptions(!showExceptions)}
-            >
-              {showExceptions ? 'Hide Exceptions' : 'Show Exceptions'}
-            </button>
-
-            {showExceptions && (
-              <div style={{ marginTop: '10px' }}>
-                <h4>Configuration Exceptions</h4>
-                <ul>
-                  <li><strong>Chromium (Cr, Z=24):</strong> <code>[Ar] 4s^1 3d^5</code>  
-                    <br />✓ More stable due to half-filled d-orbital.</li>
-                  <li><strong>Copper (Cu, Z=29):</strong> <code>[Ar] 4s^1 3d^10</code>  
-                    <br />✓ Full d-orbital preferred.</li>
-                  <li><strong>Silver (Ag, Z=47):</strong> <code>[Kr] 5s^1 4d^10</code></li>
-                  <li><strong>Gold (Au, Z=79):</strong> <code>[Xe] 6s^1 4f^14 5d^10</code></li>
-                </ul>
-                <p><em>These exceptions occur due to enhanced stability of half-filled or fully-filled d and f orbitals.</em></p>
-              </div>
-            )}
-          </div>
-
-          {/* Feedback */}
-          <div className="config-box">
-            <pre>{feedback}</pre>
-            {feedback.includes('❌') && (
-              <details>
-                <summary>Show correct answer</summary>
-                <p><strong>{correctConfig}</strong></p>
-              </details>
-            )}
-          </div>
+      {showImage && (
+        <div className="help-box">
+          <h4>Orbital Energy Order</h4>
+          <img src={orbitalImage} alt="Aufbau diagram" style={{ maxWidth: '100%', borderRadius: '8px' }} />
         </div>
       )}
+
+      {showExceptions && (
+        <div className="help-box">
+          <h4>Exceptions to the Aufbau Principle</h4>
+          <ul>
+            <li><strong>Cr (24):</strong> [Ar] 4s¹ 3d⁵</li>
+            <li><strong>Cu (29):</strong> [Ar] 4s¹ 3d¹⁰</li>
+            <li><strong>Ag (47):</strong> [Kr] 5s¹ 4d¹⁰</li>
+            <li><strong>Au (79):</strong> [Xe] 6s¹ 4f¹⁴ 5d¹⁰</li>
+          </ul>
+        </div>
+      )}
+
+      {showRules && (
+        <div className="help-box">
+          <h4>Key Principles</h4>
+          <ul>
+            <li><strong>Aufbau Principle:</strong> Electrons fill from lowest energy upward.</li>
+            <li><strong>Pauli Exclusion Principle:</strong> Each orbital holds 2 electrons with opposite spins.</li>
+            <li><strong>Hund's Rule:</strong> Orbitals fill with one electron each before pairing.</li>
+          </ul>
+        </div>
+      )}
+
+      <div className="diagram-section">
+        {userDiagram.map((row, rowIdx) => (
+          <div key={rowIdx} className="orbital-row">
+            <div className="orbital-label">{row.sub}</div>
+            <div className="orbital-line">
+              {row.arrows.map((arrow, i) => (
+                <div key={i} className="orbital" onClick={() => toggleArrow(rowIdx, i)}>
+                  {arrow || '\u00A0'}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="input-section" style={{ marginTop: '1rem' }}>
+        <button onClick={addOrbital}>➕ Add Orbital</button>
+        <button onClick={removeOrbital}>➖ Remove</button>
+        <button onClick={checkDiagram}>✅ Check Diagram</button>
+        <button onClick={() => setShowSolution(true)}>🔍 Show Solution</button>
+        <button onClick={goBack} className="help-button">Main Menu</button>
+      </div>
+
+      <div className="config-box">
+        <pre>{feedback}</pre>
+        {showSolution && (
+          <>
+            <strong>Solution:</strong>
+            {solution.map((row, idx) => (
+              <div key={idx} className="orbital-row">
+                <div className="orbital-label">{row.sub}</div>
+                <div className="orbital-line">
+                  {row.arrows.map((a, i) => (
+                    <div key={i} className="orbital">{a || '\u00A0'}</div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </>
+        )}
+      </div>
     </div>
   );
 }
