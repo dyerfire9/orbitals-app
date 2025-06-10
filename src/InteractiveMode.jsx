@@ -71,7 +71,7 @@ export default function InteractiveMode({ goBack }) {
 
   // Function to generate a new random atomic number and reset everything
   const rerollAtomicNumber = () => {
-    const rand = Math.floor(Math.random() * 30) + 1;
+    const rand = Math.floor(Math.random() * 118) + 1;
     setAtomicNumber(rand);
     const correct = generateCorrectDiagram(rand);
     setSolution(correct);
