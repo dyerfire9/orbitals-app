@@ -126,10 +126,13 @@ export default function InteractiveMode({ goBack }) {
       {/* Atomic number and control buttons */}
       <div className="help-box">
         <div className="atomic-header">
-          <h4>Given the following Atomic Number, create the orbital diagram</h4>
-          <br />
-          <p><strong>Atomic Number:</strong> {atomicNumber}</p>
-          <button className="help-button reroll-btn" onClick={rerollAtomicNumber}>🔁 Re-roll</button>
+          <div className="atomic-labels">
+            <p><strong>Given the following Atomic Number, create the orbital diagram</strong></p>
+            <div className="atomic-value">
+                <span><strong>Atomic Number:</strong> {atomicNumber}</span>
+            </div>
+            </div>
+            <button className="help-button reroll-btn" onClick={rerollAtomicNumber}>🔁 Re-roll</button>
         </div>
         <p>Tap each orbital to add/remove electrons. Use Add/Remove to adjust orbitals.</p>
 

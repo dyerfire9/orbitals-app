@@ -275,10 +275,25 @@ body {
 .atomic-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  gap: 12px;
+  align-items: flex-start;
   flex-wrap: wrap;
-  margin-bottom: 0.5rem;
+  gap: 12px;
+  margin-bottom: 0.75rem;
+}
+
+.atomic-labels {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.atomic-value {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  white-space: nowrap;
 }
 
 /* Re-roll button */
