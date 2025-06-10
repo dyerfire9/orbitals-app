@@ -1,22 +1,27 @@
+// Import React and hooks
 import React, { useState, useEffect } from 'react';
-import './App.css';
-import orbitalImage from './images/e-config.jpg';
+import './App.css'; // Import main styling
+import orbitalImage from './images/e-config.jpg'; // Orbital energy level image
 
+// List of subshells in the order they are filled (simplified to 5d)
 const subshells = [
   "1s", "2s", "2p", "3s", "3p",
   "4s", "3d", "4p", "5s", "4d"
 ];
 
+// Maximum number of electrons for each subshell type
 const maxElectrons = {
   s: 2,
   p: 6,
   d: 10
 };
 
+// Helper function to get subshell type (s, p, or d) from a string like "2p"
 function getSubshellType(sub) {
   return sub.match(/[spd]/)[0];
 }
 
+// Generates the correct orbital diagram for a given atomic number
 function generateCorrectDiagram(z) {
   let electrons = z;
   const output = [];
@@ -27,23 +32,25 @@ function generateCorrectDiagram(z) {
     const max = maxElectrons[type];
     const orbitals = max / 2;
 
-    const row = Array(orbitals).fill("");
+    const row = Array(orbitals).fill(""); // Empty orbitals
     let placed = 0;
 
     while (electrons > 0 && placed < max) {
       const index = placed < orbitals ? placed : placed % orbitals;
-      row[index] += placed < orbitals ? "↑" : "↓";
+      row[index] += placed < orbitals ? "↑" : "↓"; // Fill up then down
       placed++;
       electrons--;
     }
 
-    output.push({ sub, arrows: row });
+    output.push({ sub, arrows: row }); // Save one row for this subshell
   }
 
   return output;
 }
 
+// Main component: Orbital Game
 export default function InteractiveMode({ goBack }) {
+  // State variables for tracking diagram and options
   const [atomicNumber, setAtomicNumber] = useState(1);
   const [userDiagram, setUserDiagram] = useState([]);
   const [feedback, setFeedback] = useState('');
@@ -53,6 +60,7 @@ export default function InteractiveMode({ goBack }) {
   const [showExceptions, setShowExceptions] = useState(false);
   const [showRules, setShowRules] = useState(false);
 
+  // Initialize the game with a random atomic number between 1–30
   useEffect(() => {
     const rand = Math.floor(Math.random() * 30) + 1;
     setAtomicNumber(rand);
@@ -60,7 +68,8 @@ export default function InteractiveMode({ goBack }) {
     setSolution(correct);
     setUserDiagram([{ sub: correct[0].sub, arrows: Array(correct[0].arrows.length).fill("") }]);
   }, []);
-    
+
+  // Function to generate a new random atomic number and reset everything
   const rerollAtomicNumber = () => {
     const rand = Math.floor(Math.random() * 30) + 1;
     setAtomicNumber(rand);
@@ -69,11 +78,12 @@ export default function InteractiveMode({ goBack }) {
     setShowSolution(false);
     setFeedback('');
     setUserDiagram([{ sub: correct[0].sub, arrows: Array(correct[0].arrows.length).fill("") }]);
-    };
+  };
 
+  // Handles clicks on an orbital: ↑ → ↑↓ → empty (cycling)
   const toggleArrow = (orbitalIdx, boxIdx) => {
     setUserDiagram(prev => {
-      const newDiagram = JSON.parse(JSON.stringify(prev));
+      const newDiagram = JSON.parse(JSON.stringify(prev)); // Deep copy
       const state = newDiagram[orbitalIdx].arrows[boxIdx];
       if (state === "") newDiagram[orbitalIdx].arrows[boxIdx] = "↑";
       else if (state === "↑") newDiagram[orbitalIdx].arrows[boxIdx] = "↑↓";
@@ -82,6 +92,7 @@ export default function InteractiveMode({ goBack }) {
     });
   };
 
+  // Adds the next orbital row if available
   const addOrbital = () => {
     if (userDiagram.length < solution.length) {
       const next = solution[userDiagram.length];
@@ -89,12 +100,14 @@ export default function InteractiveMode({ goBack }) {
     }
   };
 
+  // Removes the last orbital row
   const removeOrbital = () => {
     if (userDiagram.length > 1) {
       setUserDiagram(prev => prev.slice(0, -1));
     }
   };
 
+  // Compares user input with the correct answer and gives feedback
   const checkDiagram = () => {
     const correct = JSON.stringify(solution.map(row => row.arrows));
     const user = JSON.stringify(userDiagram.map(row => row.arrows));
@@ -104,20 +117,23 @@ export default function InteractiveMode({ goBack }) {
   return (
     <div className="container">
       <h1 className="title">Orbital Game</h1>
-      
+
+      {/* Main menu button (top-right corner) */}
       <div className="top-right-menu">
         <button className="help-button mainmenu-btn" onClick={goBack}>Main Menu</button>
-    </div>
+      </div>
 
+      {/* Atomic number and control buttons */}
       <div className="help-box">
         <div className="atomic-header">
-            <h4>Given the following Atomic Number, create the orbital diagram</h4>
-            <br />
-            <p><strong>Atomic Number:</strong> {atomicNumber}</p>
-            <button className="help-button reroll-btn" onClick={rerollAtomicNumber}>🔁 Re-roll</button>
+          <h4>Given the following Atomic Number, create the orbital diagram</h4>
+          <br />
+          <p><strong>Atomic Number:</strong> {atomicNumber}</p>
+          <button className="help-button reroll-btn" onClick={rerollAtomicNumber}>🔁 Re-roll</button>
         </div>
         <p>Tap each orbital to add/remove electrons. Use Add/Remove to adjust orbitals.</p>
 
+        {/* Toggle buttons for help sections */}
         <div className="input-section">
           <button className="help-button" onClick={() => setShowImage(!showImage)}>
             {showImage ? "Hide Aufbau Diagram" : "Show Aufbau Diagram"}
@@ -131,14 +147,17 @@ export default function InteractiveMode({ goBack }) {
         </div>
       </div>
 
+      {/* Show Aufbau image if toggled */}
       {showImage && (
         <div className="help-box orbital-center">
-            <h4>Orbital Energy Order</h4>
-            <div className="orbital-image-container">
+          <h4>Orbital Energy Order</h4>
+          <div className="orbital-image-container">
             <img src={orbitalImage} alt="Aufbau diagram" />
-            </div>
+          </div>
         </div>
-    )}
+      )}
+
+      {/* Show exception list */}
       {showExceptions && (
         <div className="help-box">
           <h4>Exceptions to the Aufbau Principle</h4>
@@ -151,17 +170,19 @@ export default function InteractiveMode({ goBack }) {
         </div>
       )}
 
+      {/* Show rules like Aufbau, Hund’s, Pauli */}
       {showRules && (
         <div className="help-box">
           <h4>Key Principles</h4>
           <ul>
-            <li><strong>Aufbau Principle:</strong> Electrons fill from lowest energy upward.</li>
-            <li><strong>Pauli Exclusion Principle:</strong> Each orbital holds 2 electrons with opposite spins.</li>
-            <li><strong>Hund's Rule:</strong> Orbitals fill with one electron each before pairing.</li>
+            <li><strong>Aufbau Principle:</strong> Fill from lowest energy upward.</li>
+            <li><strong>Pauli Exclusion Principle:</strong> Opposite spins only, max 2 per orbital.</li>
+            <li><strong>Hund's Rule:</strong> Spread electrons before pairing.</li>
           </ul>
         </div>
       )}
 
+      {/* User-generated orbital diagram */}
       <div className="diagram-section">
         {userDiagram.map((row, rowIdx) => (
           <div key={rowIdx} className="orbital-row">
@@ -177,15 +198,17 @@ export default function InteractiveMode({ goBack }) {
         ))}
       </div>
 
+      {/* Action buttons: Add, Remove, Check, Solution */}
       <div className="input-section" style={{ marginTop: '1rem' }}>
         <button onClick={addOrbital}>➕ Add Orbital</button>
         <button onClick={removeOrbital}>➖ Remove</button>
         <button onClick={checkDiagram}>✅ Check Diagram</button>
         <button onClick={() => setShowSolution(prev => !prev)}>
-            {showSolution ? "🙈 Hide Solution" : "🔍 Show Solution"}
+          {showSolution ? "🙈 Hide Solution" : "🔍 Show Solution"}
         </button>
       </div>
 
+      {/* Feedback and solution section */}
       <div className="config-box">
         <pre>{feedback}</pre>
         {showSolution && (

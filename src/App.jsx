@@ -1,8 +1,10 @@
+// Importing necessary styles, React library, periodic table data, and the interactive game component
 import './App.css';
 import React, { useState } from 'react';
 import { periodicTable } from './periodic-data';
 import InteractiveMode from './InteractiveMode';
 
+// A list of all subshells in the order they are filled, along with their maximum electron capacity
 const subshells = [
   ["1s", 2], ["2s", 2], ["2p", 6], ["3s", 2], ["3p", 6],
   ["4s", 2], ["3d", 10], ["4p", 6], ["5s", 2], ["4d", 10],
@@ -10,16 +12,21 @@ const subshells = [
   ["7s", 2], ["5f", 14], ["6d", 10], ["7p", 6]
 ];
 
+// Main App Component
 export default function App() {
-  const [mode, setMode] = useState('menu');
-  const [atomicNumber, setAtomicNumber] = useState('');
-  const [config, setConfig] = useState('');
-  const [diagram, setDiagram] = useState([]);
-  const [elementInfo, setElementInfo] = useState(null);
-  const [showHelp, setShowHelp] = useState(false);
+  // React state hooks to store app state and user input
+  const [mode, setMode] = useState('menu'); // Current screen: menu, generator, or trainer
+  const [atomicNumber, setAtomicNumber] = useState(''); // User input for atomic number
+  const [config, setConfig] = useState(''); // Text version of electron configuration
+  const [diagram, setDiagram] = useState([]); // Visual representation of orbitals
+  const [elementInfo, setElementInfo] = useState(null); // Information about the selected element
+  const [showHelp, setShowHelp] = useState(false); // Whether to show help section
 
+  // Function to generate the electron configuration and orbital diagram
   const generateDiagram = () => {
-    const z = parseInt(atomicNumber);
+    const z = parseInt(atomicNumber); // Parse atomic number input
+
+    // Handle invalid input
     if (isNaN(z) || z < 1 || z > 118) {
       setConfig('Please enter a valid atomic number (1–118)');
       setDiagram([]);
@@ -27,16 +34,19 @@ export default function App() {
       return;
     }
 
-    let electrons = z;
-    let configString = '';
-    let diagramRows = [];
+    let electrons = z; // Start with the full number of electrons
+    let configString = ''; // Will build this into the config text string
+    let diagramRows = []; // Each row represents a subshell with its arrows
 
     for (let [sub, max] of subshells) {
       if (electrons <= 0) break;
+
+      // Determine how many electrons go into this subshell
       let filled = Math.min(electrons, max);
       configString += `${sub}^${filled} `;
       electrons -= filled;
 
+      // Build the orbital diagram for this subshell
       const orbitalCount = max / 2;
       let arrows = Array(orbitalCount).fill("");
 
@@ -48,11 +58,13 @@ export default function App() {
       diagramRows.push({ sub, arrows });
     }
 
+    // Save results in state
     setConfig(`Electron Configuration for Z=${z}:\n` + configString);
-    setDiagram(diagramRows.reverse());
+    setDiagram(diagramRows.reverse()); // Reverse for diagram layout
     setElementInfo(periodicTable[z] || { symbol: "?", name: "Unknown Element" });
   };
 
+  // Known exceptions to the Aufbau principle
   const exceptions = {
     24: "[Ar] 4s¹ 3d⁵",
     29: "[Ar] 4s¹ 3d¹⁰",
@@ -60,6 +72,7 @@ export default function App() {
     79: "[Xe] 6s¹ 4f¹⁴ 5d¹⁰"
   };
 
+  // Color categories for the legend and element styling
   const categories = [
     { name: 'Metal', var: '--metal' },
     { name: 'Nonmetal', var: '--nonmetal' },
@@ -73,10 +86,12 @@ export default function App() {
     { name: 'Actinide', var: '--actinide' }
   ];
 
+  // If the user selects the "trainer" mode, render the interactive builder
   if (mode === 'trainer') {
     return <InteractiveMode goBack={() => setMode('menu')} />;
   }
 
+  // Main menu screen
   if (mode === 'menu') {
     return (
       <div className="container">
@@ -88,16 +103,18 @@ export default function App() {
         <div className="author-card">
           <h3>Created by Ramila, Serena, Evelyn, Eva, Hannah</h3>
           <p>SPH4U1 - Chemistry</p>
-          <p>Ms.Moledina</p>
+          <p>Ms. Moledina</p>
         </div>
       </div>
     );
   }
 
+  // Configuration viewer screen
   return (
     <div className="container">
       <h1 className="title">Orbital Viewer</h1>
 
+      {/* Input section to enter atomic number and toggle help */}
       <div className="input-section">
         <input
           type="number"
@@ -112,8 +129,10 @@ export default function App() {
         <button onClick={() => setMode('menu')}>Main Menu</button>
       </div>
 
+      {/* Main layout content */}
       <div className="main-content">
         <div className="left-content">
+          {/* Show help section if toggled */}
           {showHelp && (
             <div className="help-box">
               <h2>Help: Orbital Diagram Rules</h2>
@@ -125,6 +144,7 @@ export default function App() {
             </div>
           )}
 
+          {/* Display element information if available */}
           {elementInfo && (
             <div className={`element-info ${elementInfo.category ? elementInfo.category.toLowerCase().replace(/\s+/g, '-') : 'default'}`}>
               <h2>{elementInfo.name} ({elementInfo.symbol})</h2>
@@ -135,8 +155,10 @@ export default function App() {
             </div>
           )}
 
+          {/* Electron configuration display */}
           <div className="config-box">
             <pre>{config}</pre>
+            {/* Show exception if element is in exception list */}
             {exceptions[atomicNumber] && (
               <div className="help-box">
                 <strong>⚠ Exception:</strong> This element is known to violate the Aufbau principle.
@@ -146,6 +168,7 @@ export default function App() {
             )}
           </div>
 
+          {/* Orbital diagram rendering */}
           <div className="diagram-section">
             {diagram.length > 0 && <strong>Orbital Diagram:</strong>}
             {diagram.map((row, idx) => (
@@ -161,6 +184,7 @@ export default function App() {
           </div>
         </div>
 
+        {/* Element category legend */}
         <div className="legend-tab">
           <h3>Category Legend</h3>
           <ul>

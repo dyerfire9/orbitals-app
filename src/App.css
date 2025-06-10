@@ -1,9 +1,11 @@
-/* THEME VARIABLES */
+/* === THEME VARIABLES === */
+/* These define common colors used throughout the app */
 :root {
   --primary-color: #0077b6;
   --accent-color: #caf0f8;
   --text-color: #03045e;
 
+  /* Category colors for different element types */
   --nonmetal: #ade8f4;
   --noblegas: #90e0ef;
   --alkalimetal: #ffb5a7;
@@ -17,6 +19,7 @@
   --default: #f0f0f0;
 }
 
+/* === GLOBAL STYLES === */
 body {
   margin: 0;
   padding: 0;
@@ -26,6 +29,7 @@ body {
   transition: background 0.5s ease-in-out;
 }
 
+/* Main container that wraps all content */
 .container {
   max-width: 1100px;
   margin: 2rem auto;
@@ -36,12 +40,13 @@ body {
   animation: fadeIn 0.5s ease-in-out;
 }
 
+/* Simple fade-in animation */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* TITLES & HEADINGS */
+/* === HEADINGS === */
 .title {
   text-align: center;
   font-size: 2.75rem;
@@ -49,7 +54,7 @@ body {
   margin-bottom: 1.5rem;
 }
 
-/* INPUT + BUTTONS */
+/* === INPUTS AND BUTTONS === */
 .input-section {
   display: flex;
   flex-wrap: wrap;
@@ -58,6 +63,7 @@ body {
   margin-bottom: 1.5rem;
 }
 
+/* Styling the atomic number input box */
 .input-section input[type="number"] {
   padding: 10px;
   width: 260px;
@@ -72,6 +78,7 @@ body {
   box-shadow: 0 0 8px var(--primary-color);
 }
 
+/* Button styling for input section */
 .input-section button {
   padding: 10px 18px;
   font-size: 1rem;
@@ -88,6 +95,7 @@ body {
   transform: scale(1.05);
 }
 
+/* General styling for all help buttons */
 .help-button {
   background-color: #90e0ef;
   color: #03045e;
@@ -96,7 +104,7 @@ body {
   background-color: #48cae4;
 }
 
-/* MENUS */
+/* === MENU BUTTONS ON HOMEPAGE === */
 .menu-buttons {
   text-align: center;
   margin-top: 2rem;
@@ -116,7 +124,7 @@ body {
   transform: scale(1.05);
 }
 
-/* HELP + CONFIG DISPLAY */
+/* === HELP BOX + CONFIGURATION TEXT === */
 .help-box {
   background-color: #e0f7fa;
   border: 2px dashed var(--primary-color);
@@ -124,6 +132,8 @@ body {
   padding: 1rem;
   margin-bottom: 1.5rem;
 }
+
+/* Electron config + feedback box */
 .config-box {
   background-color: #f1f9ff;
   border-left: 4px solid var(--primary-color);
@@ -134,7 +144,7 @@ body {
   margin-bottom: 1.5rem;
 }
 
-/* ELEMENT DISPLAY CARD */
+/* === ELEMENT CARD STYLING === */
 .element-info {
   text-align: center;
   border-radius: 8px;
@@ -142,6 +152,8 @@ body {
   padding: 1rem;
   margin-bottom: 1.5rem;
 }
+
+/* Category-based coloring for the element card */
 .element-info.nonmetal { background-color: var(--nonmetal); }
 .element-info.noble-gas { background-color: var(--noblegas); }
 .element-info.alkali-metal { background-color: var(--alkalimetal); }
@@ -154,23 +166,27 @@ body {
 .element-info.metal { background-color: var(--metal); }
 .element-info.default { background-color: var(--default); }
 
-/* ORBITAL DISPLAY */
+/* === ORBITAL DIAGRAM DISPLAY === */
 .orbital-row {
   display: flex;
   align-items: center;
   margin: 0.5rem 0;
 }
+
 .orbital-label {
   width: 60px;
   font-weight: bold;
   text-align: right;
   margin-right: 10px;
 }
+
 .orbital-line {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
 }
+
+/* Each orbital box (↑ or ↑↓) */
 .orbital {
   width: 30px;
   height: 30px;
@@ -187,7 +203,7 @@ body {
   background-color: #ade8f4;
 }
 
-/* LEGEND */
+/* === LEGEND BOX (fixed on large screens) === */
 .legend-tab {
   position: fixed;
   right: 30px;
@@ -200,21 +216,25 @@ body {
   z-index: 10;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
+
 .legend-tab h3 {
   margin-top: 0;
   font-size: 1.2rem;
   color: var(--primary-color);
 }
+
 .legend-tab ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
 .legend-tab li {
   display: flex;
   align-items: center;
   margin-bottom: 6px;
 }
+
 .legend-tab span {
   width: 16px;
   height: 16px;
@@ -223,7 +243,7 @@ body {
   border-radius: 3px;
 }
 
-/* AUTHOR CARD */
+/* === AUTHOR CARD (bottom of menu) === */
 .author-card {
   margin: 3rem auto 0 auto;
   padding: 1.2rem;
@@ -236,19 +256,22 @@ body {
   max-width: 500px;
   min-width: 280px;
 }
+
 .author-card h3 {
   margin-top: 0;
   color: var(--primary-color);
 }
-
 .author-card p {
-    color: var(--primary-color);
+  color: var(--primary-color);
 }
 .author-card a {
   color: var(--text-color);
   text-decoration: underline;
 }
 
+/* === INTERACTIVE GAME ELEMENTS === */
+
+/* Header section with atomic number and re-roll */
 .atomic-header {
   display: flex;
   justify-content: space-between;
@@ -258,6 +281,7 @@ body {
   margin-bottom: 0.5rem;
 }
 
+/* Re-roll button */
 .reroll-btn {
   font-size: 1rem;
   padding: 6px 12px;
@@ -268,12 +292,12 @@ body {
   transition: 0.3s ease;
   cursor: pointer;
 }
-
 .reroll-btn:hover {
   background-color: #0077b6;
   transform: scale(1.05);
 }
 
+/* Main menu button at top-right */
 .top-right-menu {
   display: flex;
   justify-content: flex-end;
@@ -289,35 +313,32 @@ body {
   border-radius: 6px;
   transition: 0.3s ease;
 }
-
 .mainmenu-btn:hover {
   background-color: #023e8a;
   transform: scale(1.05);
 }
 
+/* Center and style the orbital image */
 .orbital-center {
   text-align: center;
 }
-
 .orbital-image-container {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 1rem 0;
 }
-
 .orbital-image-container img {
   max-width: 40%;
   height: auto;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-
 .orbital-image-container h4 {
   font-size: 2rem;
 }
 
-/* RESPONSIVE */
+/* === RESPONSIVE DESIGN FOR SMALL SCREENS === */
 @media (max-width: 768px) {
   .container {
     padding: 1rem;
