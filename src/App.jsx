@@ -80,10 +80,10 @@ export default function App() {
   if (mode === 'menu') {
     return (
       <div className="container">
-        <h1 className="title">Orbital Diagram Explorer</h1>
+        <h1 className="title">The Orbitron</h1>
         <div className="menu-buttons">
-          <button onClick={() => setMode('generator')}>🔬 Electron Config Visualizer</button>
-          <button onClick={() => setMode('trainer')}>🧠 Orbital Builder Game</button>
+          <button onClick={() => setMode('generator')}>🔬 Orbital Viewer</button>
+          <button onClick={() => setMode('trainer')}>🧠 Orbital Game</button>
         </div>
         <div className="author-card">
           <h3>Created by Ramila, Serena, Evelyn, Eva, Hannah</h3>
@@ -96,7 +96,7 @@ export default function App() {
 
   return (
     <div className="container">
-      <h1 className="title">Electron Configuration Visualizer</h1>
+      <h1 className="title">Orbital Viewer</h1>
 
       <div className="input-section">
         <input

@@ -103,7 +103,7 @@ export default function InteractiveMode({ goBack }) {
 
   return (
     <div className="container">
-      <h1 className="title">Orbital Builder Game</h1>
+      <h1 className="title">Orbital Game</h1>
       
       <div className="top-right-menu">
         <button className="help-button mainmenu-btn" onClick={goBack}>Main Menu</button>
@@ -111,6 +111,8 @@ export default function InteractiveMode({ goBack }) {
 
       <div className="help-box">
         <div className="atomic-header">
+            <h4>Given the following Atomic Number, create the orbital diagram</h4>
+            <br />
             <p><strong>Atomic Number:</strong> {atomicNumber}</p>
             <button className="help-button reroll-btn" onClick={rerollAtomicNumber}>🔁 Re-roll</button>
         </div>
@@ -179,7 +181,9 @@ export default function InteractiveMode({ goBack }) {
         <button onClick={addOrbital}>➕ Add Orbital</button>
         <button onClick={removeOrbital}>➖ Remove</button>
         <button onClick={checkDiagram}>✅ Check Diagram</button>
-        <button onClick={() => setShowSolution(true)}>🔍 Show Solution</button>
+        <button onClick={() => setShowSolution(prev => !prev)}>
+            {showSolution ? "🙈 Hide Solution" : "🔍 Show Solution"}
+        </button>
       </div>
 
       <div className="config-box">
