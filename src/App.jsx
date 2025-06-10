@@ -86,8 +86,9 @@ export default function App() {
           <button onClick={() => setMode('trainer')}>🧠 Orbital Builder Game</button>
         </div>
         <div className="author-card">
-          <h3>Created by Abdul Rahman</h3>
-          <p>A dynamic learning tool built with React</p>
+          <h3>Created by Ramila, Serena, Evelyn, Eva, Hannah</h3>
+          <p>SPH4U1 - Chemistry</p>
+          <p>Ms.Moledina</p>
         </div>
       </div>
     );

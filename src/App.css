@@ -240,6 +240,10 @@ body {
   margin-top: 0;
   color: var(--primary-color);
 }
+
+.author-card p {
+    color: var(--primary-color);
+}
 .author-card a {
   color: var(--text-color);
   text-decoration: underline;
@@ -280,7 +284,7 @@ body {
   background-color: #0077b6;
   color: white;
   padding: 8px 14px;
-  font-size: 0.95rem;
+  font-size: 1rem;
   border: none;
   border-radius: 6px;
   transition: 0.3s ease;
@@ -291,6 +295,27 @@ body {
   transform: scale(1.05);
 }
 
+.orbital-center {
+  text-align: center;
+}
+
+.orbital-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.orbital-image-container img {
+  max-width: 40%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.orbital-image-container h4 {
+  font-size: 2rem;
+}
 
 /* RESPONSIVE */
 @media (max-width: 768px) {

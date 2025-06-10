@@ -130,12 +130,13 @@ export default function InteractiveMode({ goBack }) {
       </div>
 
       {showImage && (
-        <div className="help-box">
-          <h4>Orbital Energy Order</h4>
-          <img src={orbitalImage} alt="Aufbau diagram" style={{ maxWidth: '40%', borderRadius: '8px' }} />
+        <div className="help-box orbital-center">
+            <h4>Orbital Energy Order</h4>
+            <div className="orbital-image-container">
+            <img src={orbitalImage} alt="Aufbau diagram" />
+            </div>
         </div>
-      )}
-
+    )}
       {showExceptions && (
         <div className="help-box">
           <h4>Exceptions to the Aufbau Principle</h4>
