@@ -270,6 +270,27 @@ body {
   transform: scale(1.05);
 }
 
+.top-right-menu {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+.mainmenu-btn {
+  background-color: #0077b6;
+  color: white;
+  padding: 8px 14px;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 6px;
+  transition: 0.3s ease;
+}
+
+.mainmenu-btn:hover {
+  background-color: #023e8a;
+  transform: scale(1.05);
+}
+
 
 /* RESPONSIVE */
 @media (max-width: 768px) {

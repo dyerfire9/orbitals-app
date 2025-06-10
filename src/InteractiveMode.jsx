@@ -104,6 +104,10 @@ export default function InteractiveMode({ goBack }) {
   return (
     <div className="container">
       <h1 className="title">Orbital Builder Game</h1>
+      
+      <div className="top-right-menu">
+        <button className="help-button mainmenu-btn" onClick={goBack}>Main Menu</button>
+    </div>
 
       <div className="help-box">
         <div className="atomic-header">
@@ -128,7 +132,7 @@ export default function InteractiveMode({ goBack }) {
       {showImage && (
         <div className="help-box">
           <h4>Orbital Energy Order</h4>
-          <img src={orbitalImage} alt="Aufbau diagram" style={{ maxWidth: '100%', borderRadius: '8px' }} />
+          <img src={orbitalImage} alt="Aufbau diagram" style={{ maxWidth: '40%', borderRadius: '8px' }} />
         </div>
       )}
 
@@ -175,7 +179,6 @@ export default function InteractiveMode({ goBack }) {
         <button onClick={removeOrbital}>➖ Remove</button>
         <button onClick={checkDiagram}>✅ Check Diagram</button>
         <button onClick={() => setShowSolution(true)}>🔍 Show Solution</button>
-        <button onClick={goBack} className="help-button">Main Menu</button>
       </div>
 
       <div className="config-box">
