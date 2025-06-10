@@ -62,7 +62,7 @@ export default function InteractiveMode({ goBack }) {
 
   // Initialize the game with a random atomic number between 1–30
   useEffect(() => {
-    const rand = Math.floor(Math.random() * 30) + 1;
+    const rand = Math.floor(Math.random() * 118) + 1;
     setAtomicNumber(rand);
     const correct = generateCorrectDiagram(rand);
     setSolution(correct);

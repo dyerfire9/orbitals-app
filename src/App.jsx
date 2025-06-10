@@ -102,7 +102,7 @@ export default function App() {
         </div>
         <div className="author-card">
           <h3>Created by Ramila, Serena, Evelyn, Eva, Hannah</h3>
-          <p>SPH4U1 - Chemistry</p>
+          <p>SCH4U1 - Chemistry</p>
           <p>Ms. Moledina</p>
         </div>
       </div>
